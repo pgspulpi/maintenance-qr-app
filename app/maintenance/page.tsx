@@ -97,10 +97,10 @@ export default function MaintenancePage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Upload className="h-5 w-5" />
-              Load Google Sheets Data
+              Cargar Datos de Google Sheets
             </CardTitle>
             <CardDescription>
-              Enter the URL of your Google Sheets document. Make sure it is publicly accessible.
+              Ingresa la URL de tu documento de Google Sheets. Asegúrate de que sea públicamente accesible.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -108,18 +108,18 @@ export default function MaintenancePage() {
               <Alert>
                 <Info className="h-4 w-4" />
                 <AlertDescription className="text-sm">
-                  <strong>How to share your sheet:</strong>
+                  <strong>Cómo compartir tu hoja de cálculo:</strong>
                   <ol className="mt-2 ml-4 list-decimal space-y-1">
-                    <li>Open your Google Sheet</li>
-                    <li>Click the "Share" button (top right)</li>
-                    <li>Change to "Anyone with the link" can view</li>
-                    <li>Copy and paste the URL here</li>
+                    <li>Abre tu Hoja de Cálculo de Google</li>
+                    <li>Haz clic en el botón "Compartir" (arriba a la derecha)</li>
+                    <li>Cambia a "Cualquiera con el enlace" puede ver</li>
+                    <li>Copia y pega la URL aquí</li>
                   </ol>
                 </AlertDescription>
               </Alert>
 
               <div className="space-y-2">
-                <Label htmlFor="sheet-url">Google Sheets URL</Label>
+                <Label htmlFor="sheet-url">URL de la Hoja de Cálculo de Google</Label>
                 <Input
                   id="sheet-url"
                   type="url"
@@ -145,8 +145,8 @@ export default function MaintenancePage() {
         {data.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle>Equipment List</CardTitle>
-              <CardDescription>{data.length} items loaded. Click the QR button to generate a code.</CardDescription>
+              <CardTitle>Lista de invitados</CardTitle>
+              <CardDescription>{data.length} invitados cargados. Haz clic en el botón QR para generar un código.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
@@ -155,7 +155,7 @@ export default function MaintenancePage() {
                     <TableRow>
                       <TableHead>Nombre</TableHead>
                       <TableHead>Codigo</TableHead>
-                      <TableHead className="text-right">Action</TableHead>
+                      <TableHead className="text-right">QR</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -166,7 +166,6 @@ export default function MaintenancePage() {
                         <TableCell className="text-right">
                           <Button size="sm" onClick={() => handleGenerateQR(item.codigo, item.nombre)}>
                             <QrCode className="mr-2 h-4 w-4" />
-                            Generate QR
                           </Button>
                         </TableCell>
                       </TableRow>

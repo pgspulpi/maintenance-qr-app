@@ -150,7 +150,7 @@ export default function ScannerPage() {
           <Link href="/">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              Volver al inicio
             </Button>
           </Link>
         </div>
@@ -162,15 +162,15 @@ export default function ScannerPage() {
                 <ScanLine className="h-8 w-8 text-accent" />
               </div>
             </div>
-            <CardTitle>QR Code Scanner</CardTitle>
-            <CardDescription>Scan a QR code to view the equipment code</CardDescription>
+            <CardTitle>Escáner de Código QR</CardTitle>
+            <CardDescription>Escanea el código QR para ver los datos del invitado</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className={scanning ? "space-y-4" : "hidden"}>
               <div id="qr-reader" className="w-full overflow-hidden rounded-lg border-2 border-accent shadow-lg" />
               <div className="flex justify-center">
                 <Button onClick={stopScanning} variant="outline" size="lg">
-                  Stop Scanning
+                  Detener Escaneo
                 </Button>
               </div>
             </div>
@@ -180,14 +180,14 @@ export default function ScannerPage() {
                 <div className="flex min-h-[300px] items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/10">
                   <div className="text-center">
                     <Camera className="mx-auto mb-4 h-16 w-16 text-muted-foreground/50" />
-                    <p className="text-sm text-muted-foreground">Camera preview will appear here</p>
+                    <p className="text-sm text-muted-foreground">Vista previa de la cámara aquí</p>
                   </div>
                 </div>
                 <div id="qr-reader" className="hidden" />
                 <div className="flex justify-center">
                   <Button onClick={startScanning} size="lg">
                     <ScanLine className="mr-2 h-5 w-5" />
-                    Start Scanning
+                    Iniciar Escaneo
                   </Button>
                 </div>
               </div>
@@ -199,7 +199,7 @@ export default function ScannerPage() {
                   <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
                   <AlertDescription>
                     <div className="space-y-2">
-                      <p className="text-lg font-semibold text-green-700 dark:text-green-400">QR Code Scanned Successfully!</p>
+                      <p className="text-lg font-semibold text-green-700 dark:text-green-400">Escaneo de código QR con éxito!</p>
                     </div>
                   </AlertDescription>
                 </Alert>
@@ -233,7 +233,7 @@ export default function ScannerPage() {
                 <div className="flex justify-center">
                   <Button onClick={() => setScannedCode(null)} size="lg" className="w-full md:w-auto">
                     <ScanLine className="mr-2 h-5 w-5" />
-                    Scan Another Code
+                    Escanear otro código
                   </Button>
                 </div>
               </div>

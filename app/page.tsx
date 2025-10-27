@@ -13,41 +13,40 @@ export default function HomePage() {
               <Wrench className="h-8 w-8 text-primary-foreground" />
             </div>
           </div>
-          <h1 className="mb-2 text-balance text-3xl font-bold tracking-tight md:text-4xl">Maintenance Manager</h1>
+          <h1 className="mb-2 text-balance text-3xl font-bold tracking-tight md:text-4xl">Gestión Invitados</h1>
           <p className="text-pretty text-muted-foreground">
-            Manage equipment codes and scan QR codes for maintenance tracking
+            Gestiona los códigos de invitados y escanea los códigos QR
           </p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
+        <Link href="/scanner" className="block">
+            <Card className="h-full transition-all hover:shadow-lg">
+              <CardHeader>
+                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
+                  <ScanLine className="h-6 w-6 text-accent" />
+                </div>
+                <CardTitle>Escáner de Código QR</CardTitle>
+                <CardDescription>Escanea códigos QR para ver los códigos de invitados y la información de mantenimiento</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button variant="outline" className="w-full bg-transparent">
+                  Abrir Escáner
+                </Button>
+              </CardContent>
+            </Card>
+          </Link>
           <Link href="/maintenance" className="block">
             <Card className="h-full transition-all hover:shadow-lg">
               <CardHeader>
                 <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                   <QrCode className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Maintenance Page</CardTitle>
-                <CardDescription>Import data from Google Sheets and generate QR codes for equipment</CardDescription>
+                <CardTitle>Gestión de Invitados</CardTitle>
+                <CardDescription>Importa datos desde Google Sheets y genera códigos QR para invitados</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button className="w-full">Open Maintenance</Button>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link href="/scanner" className="block">
-            <Card className="h-full transition-all hover:shadow-lg">
-              <CardHeader>
-                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
-                  <ScanLine className="h-6 w-6 text-accent" />
-                </div>
-                <CardTitle>QR Scanner</CardTitle>
-                <CardDescription>Scan QR codes to view equipment codes and maintenance information</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button variant="outline" className="w-full bg-transparent">
-                  Open Scanner
-                </Button>
+                <Button className="w-full">Abrir Gestión de Invitados</Button>
               </CardContent>
             </Card>
           </Link>
