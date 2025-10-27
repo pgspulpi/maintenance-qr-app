@@ -1,0 +1,24 @@
+{
+  "name": "Maintenance Manager",
+  "short_name": "Maintenance",
+  "description": "Manage equipment codes and scan QR codes for maintenance tracking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#5b5fc7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.jpg",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
