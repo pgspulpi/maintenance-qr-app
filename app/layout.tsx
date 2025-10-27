@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { SWRegister } from "./sw-register"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -28,10 +29,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="apple-touch-icon" href="/placeholder-logo.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className={`font-sans antialiased`}>
         {children}
+        <SWRegister />
       </body>
     </html>
   )

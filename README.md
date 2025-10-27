@@ -6,7 +6,7 @@ A web application for managing equipment codes and scanning QR codes for mainten
 
 - 📋 **Maintenance Page**: Import data from Google Sheets and generate QR codes for equipment
 - 📷 **QR Scanner**: Scan QR codes to view equipment information
-- 📱 **Progressive Web App**: Installable on mobile devices
+- 📱 **Progressive Web App (PWA)**: Installable on mobile and desktop with offline support
 
 ## Building for Static Web Server
 
@@ -50,6 +50,14 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Progressive Web App (PWA)
+
+This app can be installed as a PWA on mobile and desktop devices. See [PWA.md](PWA.md) for detailed information.
+
+**Quick Install:**
+- **Mobile**: Tap browser menu → "Add to Home Screen"
+- **Desktop**: Click install icon in address bar
 
 ## How It Works
 
