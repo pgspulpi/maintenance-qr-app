@@ -1,14 +1,16 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { QrCode, Upload, AlertCircle, ArrowLeft, Info } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { QrCode, Upload, AlertCircle, ArrowLeft, Info, Copy, Check } from "lucide-react"
 import Link from "next/link"
+import QRCode from "qrcode"
 
 interface MaintenanceItem {
   nombre: string
@@ -20,6 +22,12 @@ export default function MaintenancePage() {
   const [data, setData] = useState<MaintenanceItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [qrModalOpen, setQrModalOpen] = useState(false)
+  const [qrData, setQrData] = useState<{ codigo: string; nombre: string } | null>(null)
+  const [copied, setCopied] = useState(false)
+  const [isModalMounted, setIsModalMounted] = useState(false)
+  const [showInstructions, setShowInstructions] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const handleLoadData = async () => {
     setError("")
@@ -77,8 +85,56 @@ export default function MaintenancePage() {
   }
 
   const handleGenerateQR = (codigo: string, nombre: string) => {
-    const qrUrl = `/qr#${encodeURIComponent(JSON.stringify({ "codigo": codigo, "nombre": nombre }))}`
-    window.open(qrUrl, "_blank")
+    setQrData({ codigo, nombre })
+    setQrModalOpen(true)
+  }
+
+  const handleDialogOpenChange = (open: boolean) => {
+    setQrModalOpen(open)
+    if (!open) {
+      setIsModalMounted(false)
+    }
+  }
+
+  useEffect(() => {
+    if (qrModalOpen && qrData && isModalMounted) {
+      console.log('Generating QR code for:', qrData)
+      
+      if (canvasRef.current) {
+        const qrContent = JSON.stringify(qrData)
+        
+        QRCode.toCanvas(canvasRef.current, qrContent, {
+          width: 400,
+          margin: 2,
+          color: {
+            dark: "#000000",
+            light: "#FFFFFF",
+          },
+        }).then(() => {
+          console.log('QR code generated successfully')
+        }).catch((err) => {
+          console.error('Failed to generate QR code:', err)
+        })
+      }
+    }
+  }, [qrModalOpen, qrData, isModalMounted])
+
+  const copyQRToClipboard = async () => {
+    if (!canvasRef.current) return
+
+    try {
+      const canvas = canvasRef.current
+      canvas.toBlob(async (blob: Blob | null) => {
+        if (!blob) return
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob })
+        ])
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+      })
+    } catch (err) {
+      console.error('Failed to copy QR code:', err)
+    }
   }
 
   return (
@@ -105,29 +161,41 @@ export default function MaintenancePage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <Alert>
-                <Info className="h-4 w-4" />
-                <AlertDescription className="text-sm">
-                  <strong>Cómo compartir tu hoja de cálculo:</strong>
-                  <ol className="mt-2 ml-4 list-decimal space-y-1">
-                    <li>Abre tu Hoja de Cálculo de Google</li>
-                    <li>Haz clic en el botón "Compartir" (arriba a la derecha)</li>
-                    <li>Cambia a "Cualquiera con el enlace" puede ver</li>
-                    <li>Copia y pega la URL aquí</li>
-                  </ol>
-                </AlertDescription>
-              </Alert>
-
-              <div className="space-y-2">
+              <div className="flex items-center justify-between">
                 <Label htmlFor="sheet-url">URL de la Hoja de Cálculo de Google</Label>
-                <Input
-                  id="sheet-url"
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowInstructions(!showInstructions)}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <Info className="h-4 w-4" />
+                </Button>
+              </div>
+              
+              {showInstructions && (
+                <Alert>
+                  <Info className="h-4 w-4" />
+                  <AlertDescription className="text-sm">
+                    <strong>Cómo compartir tu hoja de cálculo:</strong>
+                    <ol className="mt-2 ml-4 list-decimal space-y-1">
+                      <li>Abre tu Hoja de Cálculo de Google</li>
+                      <li>Haz clic en el botón "Compartir" (arriba a la derecha)</li>
+                      <li>Cambia a "Cualquiera con el enlace" puede ver</li>
+                      <li>Copia y pega la URL aquí</li>
+                    </ol>
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              <Input
+                id="sheet-url"
                   type="url"
                   placeholder="https://docs.google.com/spreadsheets/d/..."
                   value={sheetUrl}
                   onChange={(e) => setSheetUrl(e.target.value)}
                 />
-              </div>
               <Button onClick={handleLoadData} disabled={loading || !sheetUrl}>
                 {loading ? "Loading..." : "Load Data"}
               </Button>
@@ -177,6 +245,62 @@ export default function MaintenancePage() {
           </Card>
         )}
       </div>
+
+      <Dialog open={qrModalOpen} onOpenChange={handleDialogOpenChange}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Código QR de Invitado</DialogTitle>
+            <DialogDescription>
+              Escanea este código para ver la información del invitado
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col items-center gap-4 py-4">
+            <canvas 
+              key={`${qrData?.codigo}-${qrData?.nombre}`}
+              ref={(node) => {
+                canvasRef.current = node
+                if (node && !isModalMounted) {
+                  setIsModalMounted(true)
+                }
+              }} 
+              width={400} 
+              height={400} 
+              className="rounded-lg border-2 border-border" 
+            />
+            {qrData && (
+              <>
+                <div className="text-center space-y-2 w-full">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Nombre:</p>
+                    <p className="text-lg font-semibold">{qrData.nombre}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Código:</p>
+                    <p className="text-lg font-mono font-semibold">{qrData.codigo}</p>
+                  </div>
+                </div>
+                <Button 
+                  onClick={copyQRToClipboard} 
+                  variant="default"
+                  className={`w-full ${copied ? "bg-green-600 hover:bg-green-700" : ""}`}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="mr-2 h-4 w-4" />
+                      Copiado!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="mr-2 h-4 w-4" />
+                      Copiar Código QR
+                    </>
+                  )}
+                </Button>
+              </>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </main>
   )
 }

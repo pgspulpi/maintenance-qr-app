@@ -12,13 +12,18 @@ export const metadata: Metadata = {
   description: "Manage equipment codes and scan QR codes for maintenance tracking",
   generator: "v0.app",
   manifest: "/manifest.json",
-  themeColor: "#5b5fc7",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
     title: "Maintenance Manager",
   },
+}
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#5b5fc7",
 }
 
 export default function RootLayout({
