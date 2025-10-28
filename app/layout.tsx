@@ -8,14 +8,14 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Maintenance Manager",
+  title: "Adrian's Halloween party",
   description: "Manage equipment codes and scan QR codes for maintenance tracking",
   generator: "v0.app",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Maintenance Manager",
+    title: "Party tools",
   },
 }
 
