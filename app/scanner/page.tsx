@@ -230,8 +230,10 @@ export default function ScannerPage() {
                   </div>
                 </div>
                 
+                {/* keep a hidden qr-reader container in the DOM so startScanning can find it immediately */}
+                <div id="qr-reader" className="hidden" />
                 <div className="flex justify-center">
-                  <Button onClick={() => setScannedCode(null)} size="lg" className="w-full md:w-auto">
+                  <Button onClick={() => startScanning()} size="lg" className="w-full md:w-auto">
                     <ScanLine className="mr-2 h-5 w-5" />
                     Escanear otro código
                   </Button>

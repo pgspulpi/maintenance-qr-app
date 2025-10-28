@@ -1,4 +1,5 @@
 import Link from "next/link"
+import pkg from "../package.json"
 import { QrCode, ScanLine, Wrench } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,6 +15,7 @@ export default function HomePage() {
             </div>
           </div>
           <h1 className="mb-2 text-balance text-3xl font-bold tracking-tight md:text-4xl">Gestión Invitados</h1>
+          <p className="text-sm text-muted-foreground">v{pkg.version}</p>
           <p className="text-pretty text-muted-foreground">
             Gestiona los códigos de invitados y escanea los códigos QR
           </p>
