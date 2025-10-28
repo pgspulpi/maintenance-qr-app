@@ -25,9 +25,9 @@ export default function MaintenancePage() {
   const [qrModalOpen, setQrModalOpen] = useState(false)
   const [qrData, setQrData] = useState<{ codigo: string; nombre: string } | null>(null)
   const [copied, setCopied] = useState(false)
-  const [isModalMounted, setIsModalMounted] = useState(false)
   const [showInstructions, setShowInstructions] = useState(false)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [qrImageUrl, setQrImageUrl] = useState<string | null>(null)
+  const imgRef = useRef<HTMLImageElement>(null)
 
   const handleLoadData = async () => {
     setError("")
@@ -92,46 +92,43 @@ export default function MaintenancePage() {
   const handleDialogOpenChange = (open: boolean) => {
     setQrModalOpen(open)
     if (!open) {
-      setIsModalMounted(false)
+      setQrImageUrl(null)
     }
   }
 
   useEffect(() => {
-    if (qrModalOpen && qrData && isModalMounted) {
-      console.log('Generating QR code for:', qrData)
-      
-      if (canvasRef.current) {
-        const qrContent = JSON.stringify(qrData)
-        
-        QRCode.toCanvas(canvasRef.current, qrContent, {
-          width: 400,
-          margin: 2,
-          color: {
-            dark: "#000000",
-            light: "#FFFFFF",
-          },
-        }).then(() => {
-          console.log('QR code generated successfully')
-        }).catch((err) => {
+    if (qrModalOpen && qrData) {
+      const qrContent = JSON.stringify(qrData)
+      QRCode.toDataURL(qrContent, {
+        width: 400,
+        margin: 2,
+        color: {
+          dark: "#000000",
+          light: "#FFFFFF",
+        },
+      })
+        .then((url) => {
+          setQrImageUrl(url)
+          if (imgRef.current) {
+            imgRef.current.src = url
+          }
+        })
+        .catch((err) => {
           console.error('Failed to generate QR code:', err)
         })
-      }
     }
-  }, [qrModalOpen, qrData, isModalMounted])
+  }, [qrModalOpen, qrData])
 
   const copyQRToClipboard = async () => {
-    if (!canvasRef.current) return
-
+    if (!qrImageUrl) return
     try {
-      const canvas = canvasRef.current
-      canvas.toBlob(async (blob: Blob | null) => {
-        if (!blob) return
-        await navigator.clipboard.write([
-          new ClipboardItem({ 'image/png': blob })
-        ])
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      })
+      const response = await fetch(qrImageUrl)
+      const blob = await response.blob()
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob })
+      ])
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy QR code:', err)
     }
@@ -255,17 +252,14 @@ export default function MaintenancePage() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col items-center gap-4 py-4">
-            <canvas 
+            <img
               key={`${qrData?.codigo}-${qrData?.nombre}`}
-              ref={(node) => {
-                canvasRef.current = node
-                if (node && !isModalMounted) {
-                  setIsModalMounted(true)
-                }
-              }} 
-              width={400} 
-              height={400} 
-              className="rounded-lg border-2 border-border" 
+              ref={imgRef}
+              src={qrImageUrl ?? undefined}
+              width={400}
+              height={400}
+              alt="Código QR"
+              className="rounded-lg border-2 border-border"
             />
             {qrData && (
               <>
