@@ -23,7 +23,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  themeColor: "#5b5fc7",
+  themeColor: "#ff7a18",
 }
 
 export default function RootLayout({
@@ -38,7 +38,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className={`font-sans antialiased dark`}>
         {children}
         <SWRegister />
       </body>
