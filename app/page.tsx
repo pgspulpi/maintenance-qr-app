@@ -11,10 +11,10 @@ export default function HomePage() {
         <div className="mb-8 text-center">
           <div className="mb-4 flex justify-center">
             <div className="rounded-full bg-primary p-4">
-              <Wrench className="h-8 w-8 text-primary-foreground" />
+              <img src="/pumpkin.png" alt="Pumpkin" className="h-8 w-8 object-contain" />
             </div>
           </div>
-          <h1 className="mb-2 text-balance text-3xl font-bold tracking-tight md:text-4xl">Gestión Invitados</h1>
+          <h1 className="mb-2 text-balance text-3xl font-bold tracking-tight md:text-4xl">Adrian's halloween party</h1>
           <p className="text-sm text-muted-foreground">v{pkg.version}</p>
           <p className="text-pretty text-muted-foreground">
             Gestiona los códigos de invitados y escanea los códigos QR

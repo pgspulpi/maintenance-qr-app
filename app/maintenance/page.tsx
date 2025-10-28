@@ -141,7 +141,7 @@ export default function MaintenancePage() {
           <Link href="/">
             <Button variant="ghost" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
+              Volver al inicio
             </Button>
           </Link>
         </div>
