@@ -95,14 +95,14 @@ After running `npm run build`, you'll find all static files in the `out` folder 
 
 ## Technologies
 
-- Next.js 13.5
-- React 18
-- Tailwind CSS
+- Next.js 16
+- React 19
+- Tailwind CSS 4
 - shadcn/ui components
 - html5-qrcode for scanning
 - qrcode for generation
 
 ## Node.js Compatibility
 
-This project has been configured to work with Node.js 16+. The dependencies have been downgraded to compatible versions to ensure the build works on your system.
+This project requires **Node.js 20.9 or later** (Next.js 16 no longer supports Node 18). GitHub Actions builds with Node.js 22.
 

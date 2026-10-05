@@ -60,8 +60,8 @@ Then in GitHub Settings → Pages, select branch `gh-pages` as the source.
 
 ## Important Notes
 
-- The workflow uses Node.js 18
-- It automatically installs dependencies with `--legacy-peer-deps` flag
+- The workflow uses Node.js 22
+- It installs dependencies with `npm ci` from `package-lock.json`
 - Static files are built to the `out` folder
 - Deployment happens automatically on every push to `main` branch
 
