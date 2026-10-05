@@ -8,7 +8,7 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Adrian's Halloween party",
+  title: "Villa Bali Halloween party",
   description: "Manage equipment codes and scan QR codes for maintenance tracking",
   generator: "v0.app",
   manifest: "/manifest.json",
